@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+[RequireComponent (typeof (SpriteRenderer))]
 public class DisplayObject : MonoBehaviour {
   protected SpriteRenderer _spriteRenderer;
   public SpriteRenderer spriteRenderer {
