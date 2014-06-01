@@ -38,7 +38,7 @@ public class MainController : MonoBehaviour {
     previousDateTime = DateTime.Now;
 
     Load();
-    Debug.Log( "Starting with Money: " + Money );
+    Debug.Log( "Starting with Money: " + string.Format( "{0:C}", Money ) );
 
     /*LogTime( "yesterday", TimeConverter.GameTimeSince( previousDateTime.AddDays( -1.0 ) ) );
     LogTime( "two days ago", TimeConverter.GameTimeSince( previousDateTime.AddDays( -2.0 ) ) );
