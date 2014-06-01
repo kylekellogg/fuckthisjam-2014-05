@@ -20,15 +20,30 @@ public class MainController : MonoBehaviour {
 
   protected DateTime previousDateTime;
 
+  public void OnApplicationPause() {
+    Save();
+  }
+
+  public void OnApplicationFocus() {
+    Save();
+  }
+
+  public void OnApplicationQuit() {
+    Save();
+  }
+
   public void Awake() {
     SwitchState( Gamestate.Title );
 
     previousDateTime = DateTime.Now;
 
-    LogTime( "yesterday", TimeConverter.GameTimeSince( previousDateTime.AddDays( -1.0 ) ) );
+    Load();
+    Debug.Log( "Starting with Money: " + Money );
+
+    /*LogTime( "yesterday", TimeConverter.GameTimeSince( previousDateTime.AddDays( -1.0 ) ) );
     LogTime( "two days ago", TimeConverter.GameTimeSince( previousDateTime.AddDays( -2.0 ) ) );
     LogTime( "last week", TimeConverter.GameTimeSince( previousDateTime.AddDays( -7.0 ) ) );
-    LogTime( "one hour ago", TimeConverter.GameTimeSince( previousDateTime.AddHours( -1.0 ) ) );
+    LogTime( "one hour ago", TimeConverter.GameTimeSince( previousDateTime.AddHours( -1.0 ) ) );*/
   }
 
   public void Update() {
@@ -41,7 +56,6 @@ public class MainController : MonoBehaviour {
 
   public void SwitchState( Gamestate state ) {
     for ( int i = 0, l = GameStates.Length; i < l; i++ ) {
-      Debug.Log( "Will set " + i + " to be active? " + (i == (int)state) );
       if ( GameStates[i] != null ) {
         GameStates[i].SetActive( i == (int)state );
       }
@@ -52,6 +66,18 @@ public class MainController : MonoBehaviour {
     return (float)(timespan.TotalDays / IncomeTimePeriodInDays) * IncomePerTimePeriod;
   }
 
+  public void Save() {
+    PlayerPrefs.SetFloat( "Money", Money );
+    PlayerPrefs.Save();
+  }
+
+  public void Load() {
+    if ( PlayerPrefs.HasKey( "Money" ) ) {
+      Money = PlayerPrefs.GetFloat( "Money" );
+    }
+  }
+
+  //  Debugging
   private void LogTime( string since, TimeSpan timespan ) {
     Debug.Log( "Game time since " + since + ": " + timespan.Days + " days, " + timespan.Hours + " hours, " + timespan.Minutes + " minutes, and " + timespan.Seconds + " seconds" );
     Debug.Log( "Earned: " + MoneyEarnedForTimeSpan( timespan ) );
