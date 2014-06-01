@@ -50,7 +50,7 @@ public class MainController : MonoBehaviour {
     DateTime newNow = DateTime.Now;
     float income = MoneyEarnedForTimeSpan( newNow.Subtract( previousDateTime ) );
     Money += income;
-    Debug.Log( "Have $" + Money );
+//    Debug.Log( "Have $" + Money );
     previousDateTime = newNow;
   }
 
