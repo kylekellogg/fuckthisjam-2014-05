@@ -16,6 +16,9 @@ public class Button : DisplayObject
 	private bool isOver;
 	private bool isDown;
 
+	private GUIStyle style;
+
+	[SerializeField]
 	protected string _label;
 	public string Label {
 		get {
@@ -63,12 +66,12 @@ public class Button : DisplayObject
 		remove { MouseExitInvoker -= value; }
 	}
 
-	/*public void OnGUI () {
-		Vector3 min = _spriteRenderer.bounds.min;
-		Vector3 max = _spriteRenderer.bounds.max;
+	public void OnGUI () {
+		Vector3 min = Camera.main.WorldToScreenPoint( _spriteRenderer.bounds.min );
+		Vector3 max = Camera.main.WorldToScreenPoint( _spriteRenderer.bounds.max );
 		Rect rect = new Rect( min.x, min.y, max.x - min.x, max.y - min.y );
-		GUI.Label( rect, "Test" );
-	}*/
+		GUI.Label( rect, Label, style );
+	}
 
 	protected override void Initialize ()
 	{
@@ -77,7 +80,11 @@ public class Button : DisplayObject
 		isOver = false;
 		preferredTarget = Normal;
 
-		Label = Label ?? "";
+		style = new GUIStyle();
+		style.alignment = TextAnchor.MiddleCenter;
+		style.richText = true;
+
+		Label = "<color=#ffffff>"+Label+"</color>" ?? "";
 	}
 
 	protected override void UpdateView ()
