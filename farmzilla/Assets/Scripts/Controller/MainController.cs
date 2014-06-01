@@ -12,18 +12,31 @@ public enum Gamestate : uint {
 public class MainController : MonoBehaviour {
   public GameObject[] GameStates;
 
-  public float IncomePerTimePeriod = 10.0f;
+  public float IncomePerTimePeriod = 50.0f;
   public float IncomeTimePeriodInDays = 0.25f;
+  public float Money = 0.0f;
 
   protected GameObject CurrentGameState;
+
+  protected DateTime previousDateTime;
 
   public void Awake() {
     SwitchState( Gamestate.Title );
 
-    LogTime( "yesterday", TimeConverter.GameTimeSince( DateTime.Now.AddDays( -1.0 ) ) );
-    LogTime( "two days ago", TimeConverter.GameTimeSince( DateTime.Now.AddDays( -2.0 ) ) );
-    LogTime( "last week", TimeConverter.GameTimeSince( DateTime.Now.AddDays( -7.0 ) ) );
-    LogTime( "one hour ago", TimeConverter.GameTimeSince( DateTime.Now.AddHours( -1.0 ) ) );
+    previousDateTime = DateTime.Now;
+
+    LogTime( "yesterday", TimeConverter.GameTimeSince( previousDateTime.AddDays( -1.0 ) ) );
+    LogTime( "two days ago", TimeConverter.GameTimeSince( previousDateTime.AddDays( -2.0 ) ) );
+    LogTime( "last week", TimeConverter.GameTimeSince( previousDateTime.AddDays( -7.0 ) ) );
+    LogTime( "one hour ago", TimeConverter.GameTimeSince( previousDateTime.AddHours( -1.0 ) ) );
+  }
+
+  public void Update() {
+    DateTime newNow = DateTime.Now;
+    float income = MoneyEarnedForTimeSpan( newNow.Subtract( previousDateTime ) );
+    Money += income;
+    Debug.Log( "Have $" + Money );
+    previousDateTime = newNow;
   }
 
   public void SwitchState( Gamestate state ) {
