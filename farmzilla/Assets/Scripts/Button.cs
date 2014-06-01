@@ -10,10 +10,22 @@ public class Button : DisplayObject
 	public Sprite Hover;
 	public Sprite Active;
 	public Sprite Disabled;
+
 	public bool IsDisabled;
 
 	private bool isOver;
 	private bool isDown;
+
+	protected string _label;
+	public string Label {
+		get {
+			return _label;
+		}
+		set {
+			_label = value;
+			IsDirty = true;
+		}
+	}
 
 	protected Sprite _preferredTarget;
 	public Sprite preferredTarget {
@@ -51,12 +63,21 @@ public class Button : DisplayObject
 		remove { MouseExitInvoker -= value; }
 	}
 
+	/*public void OnGUI () {
+		Vector3 min = _spriteRenderer.bounds.min;
+		Vector3 max = _spriteRenderer.bounds.max;
+		Rect rect = new Rect( min.x, min.y, max.x - min.x, max.y - min.y );
+		GUI.Label( rect, "Test" );
+	}*/
+
 	protected override void Initialize ()
 	{
 		base.Initialize ();
 
 		isOver = false;
 		preferredTarget = Normal;
+
+		Label = Label ?? "";
 	}
 
 	protected override void UpdateView ()
