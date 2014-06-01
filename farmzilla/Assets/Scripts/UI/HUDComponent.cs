@@ -48,17 +48,17 @@ public class HUDComponent : DisplayObject {
 		base.Initialize();
 
 		style = new GUIStyle();
-		style.alignment = TextAnchor.UpperLeft;
+		style.alignment = TextAnchor.MiddleCenter;
 		style.richText = true;
 
-		Label = "<color=#ffffff>" + MainController.Money + "</color>";
+		Label = "<color=#ffffff>" + MainController.GetFormattedMoney() + "</color>";
 	}
 	
 	// Update is called once per frame
 	public override void Update ()
 	{
 		base.Update ();
-		Label = "<color=#ffffff>" + MainController.Money + "</color>";
+		Label = "<color=#ffffff>" + MainController.GetFormattedMoney() + "</color>";
 	}
 
 	protected override void UpdateView ()

@@ -77,6 +77,11 @@ public class MainController : MonoBehaviour {
     }
   }
 
+  public String GetFormattedMoney()
+  {
+        return string.Format("{0:C}", Money);
+  }
+
   //  Debugging
   private void LogTime( string since, TimeSpan timespan ) {
     Debug.Log( "Game time since " + since + ": " + timespan.Days + " days, " + timespan.Hours + " hours, " + timespan.Minutes + " minutes, and " + timespan.Seconds + " seconds" );

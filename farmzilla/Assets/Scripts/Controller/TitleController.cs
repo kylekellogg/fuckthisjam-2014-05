@@ -16,7 +16,8 @@ public class TitleController : BaseController {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void Update ()
+    {
+
 	}
 }
