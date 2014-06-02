@@ -35,12 +35,14 @@ public class MainController : MonoBehaviour {
   public void Awake() {
     SwitchState( Gamestate.Title );
 
-    previousDateTime = DateTime.Now;
-
     Load();
     Debug.Log( "Starting with Money: " + string.Format( "{0:C}", Money ) );
 
-    /*LogTime( "yesterday", TimeConverter.GameTimeSince( previousDateTime.AddDays( -1.0 ) ) );
+    /*previousDateTime = DateTime.Now;
+    DateTime yesterdayDateTime = previousDateTime.AddDays( -1.0 );
+    TimeSpan yesterdayTimeSpan = TimeConverter.GameTimeSince( yesterdayDateTime );
+    LogTime( "yesterday", yesterdayTimeSpan );
+    LogTime( "yesterday game time", TimeConverter.RealTimeSince( previousDateTime - yesterdayTimeSpan ) );
     LogTime( "two days ago", TimeConverter.GameTimeSince( previousDateTime.AddDays( -2.0 ) ) );
     LogTime( "last week", TimeConverter.GameTimeSince( previousDateTime.AddDays( -7.0 ) ) );
     LogTime( "one hour ago", TimeConverter.GameTimeSince( previousDateTime.AddHours( -1.0 ) ) );*/

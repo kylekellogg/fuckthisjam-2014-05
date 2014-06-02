@@ -10,7 +10,15 @@ public class TimeConverter {
     DateTime now = DateTime.Now;
     TimeSpan diff = now.Subtract( date );
     double totalDays = diff.TotalDays * DAY_CONVERSION_RATE;
-    Debug.Log( "Time Conversion: " + diff.TotalDays.ToString() + " will become " + totalDays.ToString() + " in-game days" );
+    Debug.Log( "Time->GameTime Conversion: " + diff.TotalDays.ToString() + " will become " + totalDays.ToString() + " in-game days" );
+    return TimeSpan.FromDays( totalDays );
+  }
+
+  public static TimeSpan RealTimeSince( DateTime gamedate ) {
+    DateTime now = DateTime.Now;
+    TimeSpan diff = now.Subtract( gamedate );
+    double totalDays = diff.TotalDays / DAY_CONVERSION_RATE;
+    Debug.Log( "GameTime->Time Conversion: " + diff.TotalDays.ToString() + " will become " + totalDays.ToString() + " real days" );
     return TimeSpan.FromDays( totalDays );
   }
 }
