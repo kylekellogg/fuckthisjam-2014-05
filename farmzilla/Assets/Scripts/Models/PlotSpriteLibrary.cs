@@ -22,7 +22,11 @@ public class PlotSpriteLibrary : MonoBehaviour {
   }
 
   public Sprite RandomSprite() {
-    int random = myRandom.Next( (int)Sprites.Length );
-    return Sprites[random];
+    int random = myRandom.Next( (int)Sprites.Length - 1 ) + 1;
+    return Sprites[ random ];
+  }
+
+  public Sprite DestroyedSprite() {
+    return Sprites[ 0 ];
   }
 }

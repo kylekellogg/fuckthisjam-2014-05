@@ -6,8 +6,11 @@ using System.Collections;
 public class Plot : Button {
   public PlotBackground plotBackground;
 
+  public bool IsDestroyed;
+  public bool IsEssential;
+
   public void Start() {
-    Sprite s = PlotSpriteLibrary.Instance.RandomSprite();
+    Sprite s = IsDestroyed ? PlotSpriteLibrary.Instance.DestroyedSprite() : PlotSpriteLibrary.Instance.RandomSprite();
     _spriteRenderer.sprite = s;
     Normal = s;
     Hover = s;

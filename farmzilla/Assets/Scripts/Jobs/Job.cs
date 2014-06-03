@@ -21,7 +21,7 @@ public class Job {
         plot = pl;
         Progress = 0f;
         CreatedAt = TimeConverter.GameTimeSince( DateTime.Now );
-        TimeSpan completionTimeSpan = new TimeSpan( 0, 0, 1, 0, 0 );
+        TimeSpan completionTimeSpan = new TimeSpan( 0, 16, 0, 0, 0 );
         WillBeCompletedOn = CreatedAt + completionTimeSpan;
 
         lastTime = CreatedAt;
