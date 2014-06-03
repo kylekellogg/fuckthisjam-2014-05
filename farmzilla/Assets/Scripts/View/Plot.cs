@@ -2,14 +2,19 @@
 using System;
 using System.Collections;
 
-public class Plot : DisplayObject {
-  protected MainController mainController;
+[RequireComponent (typeof (BoxCollider2D))]
+public class Plot : Button {
+  public PlotBackground plotBackground;
 
-  protected override void Initialize() {
-    base.Initialize();
+  public void Start() {
+    Sprite s = PlotSpriteLibrary.Instance.RandomSprite();
+    _spriteRenderer.sprite = s;
+    Normal = s;
+    Hover = s;
+    Active = s;
+    Disabled = s;
+    preferredTarget = s;
 
-    mainController = FindObjectOfType<MainController>();
-
-    _spriteRenderer.sprite = PlotSpriteLibrary.Instance.RandomSprite();
+    IsDirty = true;
   }
 }

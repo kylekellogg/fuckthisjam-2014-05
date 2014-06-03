@@ -3,7 +3,7 @@ using System.Collections;
 
 public class HUDComponent : DisplayObject {
 
-	public MainController MainController;
+	protected MainController mainController;
 
 	private GUIStyle style;
 	
@@ -46,6 +46,7 @@ public class HUDComponent : DisplayObject {
 	protected override void Initialize()
 	{
 		base.Initialize();
+		mainController = FindObjectOfType<MainController>();
 
 		style = new GUIStyle();
 		style.alignment = TextAnchor.MiddleCenter;

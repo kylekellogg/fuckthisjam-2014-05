@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class GameController : BaseController {
   public HUDComponent Background;
 
   public float ScrollSpeedMultiplier = 1.0f;
+
+  protected Plot[] Plots;
 
   protected Bounds BackgroundBounds;
   protected Transform BackgroundTransform;
@@ -13,6 +16,11 @@ public class GameController : BaseController {
 	void Start () {
     BackgroundBounds = Background.spriteRenderer.renderer.bounds;
     BackgroundTransform = Background.transform;
+
+    Plots = GetComponentsInChildren<Plot>();
+    Array.ForEach( Plots, delegate( Plot plot ) {
+      plot.MouseUp += OnMouseUp;
+    } );
 	}
 	
 	// Update is called once per frame
@@ -51,4 +59,19 @@ public class GameController : BaseController {
 
     BackgroundTransform.position = Camera.main.ScreenToWorldPoint( backgroundPosPx );
 	}
+
+  protected void OnMouseUp( DisplayObject dobj ) {
+    Plot p = (Plot)dobj;
+
+    if ( p.plotBackground != null ) {
+      p.plotBackground.gameObject.SetActive( true );
+      Array.ForEach( Plots, delegate( Plot plot ) {
+        if ( plot != p ) {
+          if ( plot.plotBackground != null ) {
+            plot.plotBackground.gameObject.SetActive( false );
+          }
+        }
+      } );
+    }
+  }
 }

@@ -23,8 +23,6 @@ public class PlotSpriteLibrary : MonoBehaviour {
 
   public Sprite RandomSprite() {
     int random = myRandom.Next( (int)Sprites.Length );
-    Debug.Log( "Will attempt to get sprite at position: " + random );
-    Debug.Log( Sprites[ random ] );
     return Sprites[random];
   }
 }
