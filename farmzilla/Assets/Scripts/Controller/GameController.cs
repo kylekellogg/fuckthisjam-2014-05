@@ -20,15 +20,15 @@ public class GameController : BaseController {
 	
 	// Update is called once per frame
 	void Update () {
-    if ( Input.GetKey( "down" ) ) {
+    if ( Input.GetKey( KeyCode.DownArrow ) ) {
       BackgroundTransform.position += Vector3.up * ScrollSpeedMultiplier * Time.deltaTime;
-    } else if ( Input.GetKey( "up" ) ) {
+    } else if ( Input.GetKey( KeyCode.UpArrow ) ) {
       BackgroundTransform.position += Vector3.down * ScrollSpeedMultiplier * Time.deltaTime;
     }
 
-    if ( Input.GetKey( "left" ) ) {
+    if ( Input.GetKey( KeyCode.LeftArrow ) ) {
       BackgroundTransform.position += Vector3.right * ScrollSpeedMultiplier * Time.deltaTime;
-    } else if ( Input.GetKey( "right" ) ) {
+    } else if ( Input.GetKey( KeyCode.RightArrow ) ) {
       BackgroundTransform.position += Vector3.left * ScrollSpeedMultiplier * Time.deltaTime;
     }
 
