@@ -23,23 +23,29 @@ public class Plot : InteractableObject {
     MouseUp += HandleOnMouseUp;
   }
 
-  public void Update() {
-    if ( hasActiveJob ) {
-      ProgressBar.gameObject.SetActive( true );
-
-      Vector3 origScale = ProgressBar.transform.localScale;
-      origScale.x = activeJob.Progress;
-      ProgressBar.transform.localScale = origScale;
-    } else {
-      ProgressBar.gameObject.SetActive( false );
-    }
-  }
-
   protected void HandleOnMouseUp( InteractableObject iobj ) {
     if ( IsDestroyed ) {
       activeJob = new Job( this, JobType.Save );
+
+      activeJob.JobProgress += delegate() {
+        Vector3 origScale = ProgressBar.transform.localScale;
+        origScale.x = activeJob.Progress;
+        ProgressBar.transform.localScale = origScale;
+      };
+
+      activeJob.JobStarted += delegate() {
+        ProgressBar.gameObject.SetActive( true );
+        hasActiveJob = true;
+      };
+
+      activeJob.JobComplete += delegate() {
+        ProgressBar.gameObject.SetActive( false );
+
+        PlotImage.sprite = PlotSpriteLibrary.Instance.RandomSprite();
+        hasActiveJob = false;
+      };
+
       FindObjectOfType<JobQueue>().Enqueue( activeJob );
-      hasActiveJob = true;
     } else {
       bool highlighted = !Highlight.gameObject.activeInHierarchy;
       Highlight.gameObject.SetActive( highlighted );
