@@ -15,6 +15,7 @@ public class JobQueue : MonoBehaviour {
     public void Enqueue (Job job)
     {
         jobs.Add (job);
+        job.Activate();
     }
 
 	// Update is called once per frame
@@ -22,14 +23,14 @@ public class JobQueue : MonoBehaviour {
 
         TimeSpan now = TimeConverter.GameTimeSince( DateTime.Now );
 
-	    foreach (Job job in jobs) {
-            TimeSpan duration = job.WillBeCompletedOn.Subtract( now ).Duration();
-
-            if (duration <= TimeSpan.Zero) {
+	    for ( int i = jobs.Count - 1; i > -1; i-- ) {
+            Job job = jobs[i];
+            job.Tick (now);
+            
+            if ( job.Progress >= 1.0f ) {
                 job.Complete();
-                jobs.Remove(job);
-            } else {
-                job.Tick (now);
+                jobs.RemoveAt(i);
+                Debug.LogWarning( "Ding!" );
             }
         }
 	}

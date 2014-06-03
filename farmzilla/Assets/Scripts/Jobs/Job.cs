@@ -2,41 +2,50 @@
 using System;
 using System.Collections;
 
-public class Job : MonoBehaviour {
+public class Job {
 
     public TimeSpan CreatedAt;
     public TimeSpan WillBeCompletedOn;
     public DisplayObject plot;
 
-    protected float progress;
+    public float Progress;
     protected bool isCompleted;
     protected bool isActive;
 
-    void Schedule (DisplayObject pl)
+    protected TimeSpan lastTime;
+
+    public Job (DisplayObject pl)
     {
         isActive = false;
         isCompleted = false;
         plot = pl;
-        progress = 0f;
+        Progress = 0f;
         CreatedAt = TimeConverter.GameTimeSince( DateTime.Now );
-        WillBeCompletedOn = TimeConverter.GameTimeSince( DateTime.Now.AddHours(16) );
+        TimeSpan completionTimeSpan = new TimeSpan( 0, 0, 1, 0, 0 );
+        WillBeCompletedOn = CreatedAt + completionTimeSpan;
+
+        lastTime = CreatedAt;
     }
 
     public void Activate ()
     {
         isActive = true;
+        isCompleted = false;
     }
 
     public void Complete ()
     {
         isCompleted = true;
+        isActive = false;
     }
 
     public void Tick (TimeSpan gameTime)
     {
-        TimeSpan startOffset = gameTime - CreatedAt;
-        TimeSpan endOffset = WillBeCompletedOn - CreatedAt;
+        TimeSpan offset = WillBeCompletedOn - gameTime;
+        TimeSpan totalOffset = WillBeCompletedOn - CreatedAt;
 
-        progress = (float) (startOffset - endOffset).TotalHours;
+        Progress = (float)((totalOffset.TotalHours - offset.TotalHours) / totalOffset.TotalHours);
+
+        lastTime = gameTime;
     }
 }

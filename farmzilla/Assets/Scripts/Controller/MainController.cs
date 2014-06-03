@@ -18,6 +18,8 @@ public class MainController : MonoBehaviour {
 
   protected GameObject CurrentGameState;
 
+  protected JobQueue jobQueue;
+
   protected DateTime previousDateTime;
 
   public void OnApplicationPause() {
@@ -33,10 +35,16 @@ public class MainController : MonoBehaviour {
   }
 
   public void Awake() {
+    TimeConverter.Initialize();
+    
     SwitchState( Gamestate.Title );
 
     Load();
     Debug.Log( "Starting with Money: " + string.Format( "{0:C}", Money ) );
+
+    jobQueue = FindObjectOfType<JobQueue>();
+
+    jobQueue.Enqueue( new Job( null ) );
 
     /*previousDateTime = DateTime.Now;
     DateTime yesterdayDateTime = previousDateTime.AddDays( -1.0 );
