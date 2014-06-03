@@ -18,15 +18,15 @@ public class GameController : BaseController {
 	// Update is called once per frame
 	void Update () {
     if ( Input.GetKey( "down" ) ) {
-      BackgroundTransform.position += Vector3.down * ScrollSpeedMultiplier * Time.deltaTime;
-    } else if ( Input.GetKey( "up" ) ) {
       BackgroundTransform.position += Vector3.up * ScrollSpeedMultiplier * Time.deltaTime;
+    } else if ( Input.GetKey( "up" ) ) {
+      BackgroundTransform.position += Vector3.down * ScrollSpeedMultiplier * Time.deltaTime;
     }
 
     if ( Input.GetKey( "left" ) ) {
-      BackgroundTransform.position += Vector3.left * ScrollSpeedMultiplier * Time.deltaTime;
-    } else if ( Input.GetKey( "right" ) ) {
       BackgroundTransform.position += Vector3.right * ScrollSpeedMultiplier * Time.deltaTime;
+    } else if ( Input.GetKey( "right" ) ) {
+      BackgroundTransform.position += Vector3.left * ScrollSpeedMultiplier * Time.deltaTime;
     }
 
     Vector3 centerPosPx = Camera.main.WorldToScreenPoint( Vector3.zero );
