@@ -60,10 +60,10 @@ public class GameController : BaseController {
     BackgroundTransform.position = Camera.main.ScreenToWorldPoint( backgroundPosPx );
 	}
 
-  protected void OnMouseUp( DisplayObject dobj ) {
-    Plot p = (Plot)dobj;
+  protected void OnMouseUp( InteractableObject iobj ) {
+    Plot p = (Plot)iobj;
 
-    if ( p.plotBackground != null ) {
+    /*if ( p.plotBackground != null ) {
       p.plotBackground.gameObject.SetActive( true );
       Array.ForEach( Plots, delegate( Plot plot ) {
         if ( plot != p ) {
@@ -74,6 +74,6 @@ public class GameController : BaseController {
       } );
 
       //  TODO: Trigger HUD overlay w/ info
-    }
+    }*/
   }
 }

@@ -42,10 +42,6 @@ public class MainController : MonoBehaviour {
     Load();
     Debug.Log( "Starting with Money: " + string.Format( "{0:C}", Money ) );
 
-    jobQueue = FindObjectOfType<JobQueue>();
-
-    jobQueue.Enqueue( new Job( null ) );
-
     /*previousDateTime = DateTime.Now;
     DateTime yesterdayDateTime = previousDateTime.AddDays( -1.0 );
     TimeSpan yesterdayTimeSpan = TimeConverter.GameTimeSince( yesterdayDateTime );

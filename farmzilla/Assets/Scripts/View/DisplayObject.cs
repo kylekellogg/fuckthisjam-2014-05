@@ -12,6 +12,18 @@ public class DisplayObject : MonoBehaviour {
     }
   }
 
+  public Sprite sprite {
+    get {
+      return _spriteRenderer != null ? _spriteRenderer.sprite : null;
+    }
+    set {
+      if ( _spriteRenderer != null ) {
+        _spriteRenderer.sprite = value;
+        IsDirty = true;
+      }
+    }
+  }
+
   [HideInInspector]
   public bool IsDirty;
 

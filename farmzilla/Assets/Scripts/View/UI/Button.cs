@@ -3,131 +3,131 @@ using System.Collections;
 
 public delegate void UIEvent (DisplayObject displayObject);
 
-[RequireComponent (typeof (BoxCollider2D))]
 public class Button : HUDComponent
 {
-	public Sprite Normal;
-	public Sprite Hover;
-	public Sprite Active;
-	public Sprite Disabled;
 
-	public bool IsDisabled;
+  protected UIEvent MouseDownInvoker;
+  public event UIEvent MouseDown {
+    add { MouseDownInvoker += value; }
+    remove { MouseDownInvoker -= value; }
+  }
 
-	private bool isOver;
-	private bool isDown;
+  protected UIEvent MouseUpInvoker;
+  public event UIEvent MouseUp {
+    add { MouseUpInvoker += value; }
+    remove { MouseUpInvoker -= value; }
+  }
 
-	protected Sprite _preferredTarget;
-	public Sprite preferredTarget {
-		get {
-			return _preferredTarget;
-		}
+  protected UIEvent MouseEnterInvoker;
+  public event UIEvent MouseEnter {
+    add { MouseEnterInvoker += value; }
+    remove { MouseEnterInvoker -= value; }
+  }
 
-		set {
-			_preferredTarget = value;
-			IsDirty = true;
-		}
-	}
+  protected UIEvent MouseExitInvoker;
+  public event UIEvent MouseExit {
+    add { MouseExitInvoker += value; }
+    remove { MouseExitInvoker -= value; }
+  }
 
-	protected UIEvent MouseDownInvoker;
-	public event UIEvent MouseDown {
-		add { MouseDownInvoker += value; }
-		remove { MouseDownInvoker -= value; }
-	}
+  public Sprite Normal;
+  public Sprite Hover;
+  public Sprite Active;
+  public Sprite Disabled;
 
-	protected UIEvent MouseUpInvoker;
-	public event UIEvent MouseUp {
-		add { MouseUpInvoker += value; }
-		remove { MouseUpInvoker -= value; }
-	}
+  public bool IsDisabled;
 
-	protected UIEvent MouseEnterInvoker;
-	public event UIEvent MouseEnter {
-		add { MouseEnterInvoker += value; }
-		remove { MouseEnterInvoker -= value; }
-	}
+  private bool isOver;
+  private bool isDown;
 
-	protected UIEvent MouseExitInvoker;
-	public event UIEvent MouseExit {
-		add { MouseExitInvoker += value; }
-		remove { MouseExitInvoker -= value; }
-	}
+  protected Sprite _preferredTarget;
+  public Sprite preferredTarget {
+    get {
+      return _preferredTarget;
+    }
 
-	protected override void Initialize ()
-	{
-		base.Initialize ();
+    set {
+      _preferredTarget = value;
+      IsDirty = true;
+    }
+  }
 
-		isOver = false;
-		preferredTarget = Normal;
-	}
+  protected override void Initialize ()
+  {
+    base.Initialize ();
 
-	protected override void UpdateView ()
-	{
-		base.UpdateView ();
+    isOver = false;
+    preferredTarget = Normal;
+  }
 
-		if (IsDisabled) {
-			_spriteRenderer.sprite = Disabled != null ? Disabled : preferredTarget;
-		} else {
-			_spriteRenderer.sprite = preferredTarget;
-		}
-	}
+  protected override void UpdateView ()
+  {
+    base.UpdateView ();
 
-	public void OnMouseEnter ()
-	{
-		isOver = true;
+    if (IsDisabled) {
+      _spriteRenderer.sprite = Disabled != null ? Disabled : preferredTarget;
+    } else {
+      _spriteRenderer.sprite = preferredTarget;
+    }
+  }
 
-		if(!isDown) {
-			preferredTarget = Hover;
-		}
+  public void OnMouseEnter ()
+  {
+    isOver = true;
 
-		if (!IsDisabled) {
-			if (MouseEnterInvoker != null) {
-				MouseEnterInvoker(this);
-			}
-		}
-	}
+    if(!isDown) {
+      preferredTarget = Hover;
+    }
 
-	public void OnMouseExit ()
-	{
-		isOver = false;
+    if (!IsDisabled) {
+      if (MouseEnterInvoker != null) {
+        MouseEnterInvoker(this);
+      }
+    }
+  }
 
-		if(!isDown) {
-			preferredTarget = Normal;
-		}
+  public void OnMouseExit ()
+  {
+    isOver = false;
 
-		if (!IsDisabled) {
-			if (MouseExitInvoker != null) {
-				MouseExitInvoker(this);
-			}
-		}
-	}
+    if(!isDown) {
+      preferredTarget = Normal;
+    }
 
-	public void OnMouseDown ()
-	{
-		isDown = true;
-		preferredTarget = Active;
+    if (!IsDisabled) {
+      if (MouseExitInvoker != null) {
+        MouseExitInvoker(this);
+      }
+    }
+  }
 
-		if (!IsDisabled) {
-			if (MouseDownInvoker != null) {
-				MouseDownInvoker(this);
-			}
-		}
-	}
+  public void OnMouseDown ()
+  {
+    isDown = true;
+    preferredTarget = Active;
 
-	public void OnMouseUp ()
-	{
-		isDown = false;
+    if (!IsDisabled) {
+      if (MouseDownInvoker != null) {
+        MouseDownInvoker(this);
+      }
+    }
+  }
 
-		if (isOver){
-			preferredTarget = Hover;
-		} else {
-			preferredTarget = Normal;
-		}
+  public void OnMouseUp ()
+  {
+    isDown = false;
 
-		if (!IsDisabled) {
-			if (MouseUpInvoker != null) {
-				MouseUpInvoker(this);
-			}
-		}
-	}
+    if (isOver){
+      preferredTarget = Hover;
+    } else {
+      preferredTarget = Normal;
+    }
+
+    if (!IsDisabled) {
+      if (MouseUpInvoker != null) {
+        MouseUpInvoker(this);
+      }
+    }
+  }
 }
 
