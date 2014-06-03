@@ -30,7 +30,6 @@ public class JobQueue : MonoBehaviour {
             if ( job.Progress >= 1.0f ) {
                 job.Complete();
                 jobs.RemoveAt(i);
-                Debug.LogWarning( "Ding!" );
             }
         }
 	}

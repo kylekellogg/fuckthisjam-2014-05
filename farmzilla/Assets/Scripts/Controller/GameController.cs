@@ -16,11 +16,6 @@ public class GameController : BaseController {
 	void Start () {
     BackgroundBounds = Background.spriteRenderer.renderer.bounds;
     BackgroundTransform = Background.transform;
-
-    Plots = GetComponentsInChildren<Plot>();
-    Array.ForEach( Plots, delegate( Plot plot ) {
-      plot.MouseUp += OnMouseUp;
-    } );
 	}
 	
 	// Update is called once per frame
@@ -59,21 +54,4 @@ public class GameController : BaseController {
 
     BackgroundTransform.position = Camera.main.ScreenToWorldPoint( backgroundPosPx );
 	}
-
-  protected void OnMouseUp( InteractableObject iobj ) {
-    Plot p = (Plot)iobj;
-
-    /*if ( p.plotBackground != null ) {
-      p.plotBackground.gameObject.SetActive( true );
-      Array.ForEach( Plots, delegate( Plot plot ) {
-        if ( plot != p ) {
-          if ( plot.plotBackground != null ) {
-            plot.plotBackground.gameObject.SetActive( false );
-          }
-        }
-      } );
-
-      //  TODO: Trigger HUD overlay w/ info
-    }*/
-  }
 }

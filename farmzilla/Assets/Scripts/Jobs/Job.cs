@@ -53,7 +53,11 @@ public class Job {
         plot = pl;
         Progress = 0f;
         CreatedAt = TimeConverter.GameTimeSince( DateTime.Now );
+#if UNITY_EDITOR
+        TimeSpan completionTimeSpan = new TimeSpan( 0, 0, (int)jt, 0, 0 );
+#else
         TimeSpan completionTimeSpan = new TimeSpan( 0, (int)jt, 0, 0, 0 );
+#endif
         WillBeCompletedOn = CreatedAt + completionTimeSpan;
 
         Type = jt;
