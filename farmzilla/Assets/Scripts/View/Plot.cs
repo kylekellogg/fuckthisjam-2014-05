@@ -14,6 +14,7 @@ public class Plot : InteractableObject {
   public DisplayObject Highlight;
   public DisplayObject PlotImage;
   public DisplayObject ProgressBar;
+  public DisplayObject Flames;
 
   public bool IsEssential;
 
@@ -22,8 +23,18 @@ public class Plot : InteractableObject {
 
   public PlotType type;
 
+  protected System.Random myRandom;
+
   public void Start() {
-    PlotImage.sprite = type == PlotType.Destroyed ? PlotSpriteLibrary.Instance.DestroyedSprite() : PlotSpriteLibrary.Instance.RandomSprite();
+    myRandom = new System.Random( (int)DateTime.Now.Ticks );
+    if ( type == PlotType.Destroyed ) {
+      double rnd = myRandom.NextDouble();
+      //  1/3 chance to become burning
+      if ( rnd > 0.32 && rnd < 0.67 ) {
+        type = PlotType.Burning;
+      }
+    }
+    PlotImage.sprite = PlotSpriteLibrary.Instance.SpriteForPlotType( type );
     PlotImage.IsDirty = true;
 
     Highlight.gameObject.SetActive( false );
@@ -38,6 +49,16 @@ public class Plot : InteractableObject {
       if ( !hasActiveJob && NotYetHighestLevel() ) {
         Debug.Log( "No active job, not highest level" );
         ScheduleNextJob();
+      }
+    }
+
+    Flames.gameObject.SetActive( type == PlotType.Burning );
+    if ( Flames.gameObject.activeInHierarchy ) {
+      double rnd = myRandom.NextDouble();
+
+      //  1/3 chance to change
+      if ( rnd > 0.32 && rnd < 0.67 ) {
+        Flames.sprite = PlotSpriteLibrary.Instance.Flames[ myRandom.Next( PlotSpriteLibrary.Instance.Flames.Length ) ];
       }
     }
   }
@@ -111,11 +132,9 @@ public class Plot : InteractableObject {
   protected void HandleJobComplete() {
     ProgressBar.gameObject.SetActive( false );
 
-    //  Upgrade image if burning or destroyed
-    if ( type == PlotType.Destroyed || type == PlotType.Burning ) {
-      PlotImage.sprite = PlotSpriteLibrary.Instance.RandomSprite();
-    }
     hasActiveJob = false;
+
+    PlotType origType = type;
 
     switch ( activeJob.Type ) {
       case JobType.Save:
@@ -135,6 +154,10 @@ public class Plot : InteractableObject {
         break;*/
       default:
         break;
+    }
+
+    if ( type != origType ) {
+      PlotImage.sprite = PlotSpriteLibrary.Instance.SpriteForPlotType( type );
     }
 
     //  Cleanup
