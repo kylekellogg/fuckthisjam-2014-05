@@ -55,11 +55,6 @@ public class DisplayObject : MonoBehaviour {
     }
   }
 
-  public DisplayObject() {
-    IsInitialized = false;
-    Children = new List<Transform>();
-  }
-
   public void Awake() {
     Initialize();
   }
@@ -77,6 +72,9 @@ public class DisplayObject : MonoBehaviour {
   }
 
   protected virtual void Initialize() {
+    IsInitialized = false;
+    Children = new List<Transform>();
+    
     if ( GetComponent<SpriteRenderer>() != null ) {
       _spriteRenderer = GetComponent<SpriteRenderer>();
     } else {
