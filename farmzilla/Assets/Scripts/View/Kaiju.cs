@@ -5,6 +5,8 @@ using System.Collections;
 public class Kaiju : DisplayObject {
   protected System.Random myRandom;
 
+  public float SpeedDampening = 0.1f;
+
   protected override void Initialize() {
     base.Initialize();
 
@@ -26,6 +28,8 @@ public class Kaiju : DisplayObject {
 
       transform.rotation = Quaternion.Euler( 0f, 0f, newRot );
     }
+
+    transform.position = transform.position + (transform.up * Time.deltaTime * SpeedDampening);
 
     /*if ( myRandom.NextDouble() > 0.65 ) {
       float rnd = (float)myRandom.NextDouble();
