@@ -18,8 +18,6 @@ public class MainController : MonoBehaviour {
 
   protected GameObject CurrentGameState;
 
-  protected JobQueue jobQueue;
-
   protected DateTime previousDateTime;
 
   public void OnApplicationPause() {

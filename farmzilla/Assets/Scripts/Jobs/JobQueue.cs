@@ -25,12 +25,16 @@ public class JobQueue : MonoBehaviour {
 
 	    for ( int i = jobs.Count - 1; i > -1; i-- ) {
             Job job = jobs[i];
-            job.Tick (now);
-            
-            if ( job.Progress >= 1.0f ) {
-                job.Complete();
-                jobs.RemoveAt(i);
+
+            if ( job != null ) {
+                job.Tick (now);
+                
+                if ( job.Progress >= 1.0f ) {
+                    job.Complete();
+                    jobs.RemoveAt(i);
+                }
             }
+            job = null;
         }
 	}
 }

@@ -7,15 +7,24 @@ public class GameController : BaseController {
 
   public float ScrollSpeedMultiplier = 1.0f;
 
+  public Kaiju theKaiju;
+
   protected Plot[] Plots;
 
   protected Bounds BackgroundBounds;
   protected Transform BackgroundTransform;
 
+  protected JobQueue jobQueue;
+  protected Job nextKaijuJob;
+
 	// Use this for initialization
 	void Start () {
     BackgroundBounds = Background.spriteRenderer.renderer.bounds;
     BackgroundTransform = Background.transform;
+
+    jobQueue = FindObjectOfType<JobQueue>();
+
+    ScheduleKaijuAttack();
 	}
 	
 	// Update is called once per frame
@@ -54,4 +63,51 @@ public class GameController : BaseController {
 
     BackgroundTransform.position = Camera.main.ScreenToWorldPoint( backgroundPosPx );
 	}
+
+  protected void ScheduleFirstKaijuAttack() {
+    nextKaijuJob = new Job( JobType.FirstKaijuAttack );
+    AddToQueue();
+  }
+
+  protected void ScheduleKaijuAttack() {
+    nextKaijuJob = new Job( JobType.KaijuAttack );
+    AddToQueue();
+  }
+
+  protected void ScheduleKaijuCooldown() {
+    nextKaijuJob = new Job( JobType.KaijuCooldown );
+    AddToQueue();
+  }
+
+  protected void AddToQueue() {
+    nextKaijuJob.JobStarted += KaijuJobStart;
+    nextKaijuJob.JobProgress += KaijuJobProgress;
+    nextKaijuJob.JobComplete += KaijuJobComplete;
+
+    jobQueue.Enqueue( nextKaijuJob );
+  }
+
+  protected void KaijuJobStart() {
+    Debug.Log( "Job started" );
+  }
+
+  protected void KaijuJobProgress() {
+    Debug.Log( "Job " + nextKaijuJob.Progress + " done" );
+  }
+
+  protected void KaijuJobComplete() {
+    nextKaijuJob.JobStarted -= KaijuJobStart;
+    nextKaijuJob.JobProgress -= KaijuJobProgress;
+    nextKaijuJob.JobComplete -= KaijuJobComplete;
+
+    if ( nextKaijuJob.Type != JobType.KaijuAttack ) {
+      theKaiju.StopAttack();
+
+      ScheduleKaijuAttack();
+    } else {
+      theKaiju.Attack();
+
+      ScheduleKaijuCooldown();
+    }
+  }
 }

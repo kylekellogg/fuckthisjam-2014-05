@@ -76,13 +76,13 @@ public class Plot : InteractableObject {
       case PlotType.Burned:
         return;
       case PlotType.Burning:
-        activeJob = new Job( this, JobType.Save );
+        activeJob = new Job( JobType.Save );
         break;
       case PlotType.Destroyed:
-        activeJob = new Job( this, JobType.Build );
+        activeJob = new Job( JobType.Build );
         break;
       case PlotType.Initial:
-        activeJob = new Job( this, JobType.Upgrade1 );
+        activeJob = new Job( JobType.Upgrade1 );
         break;
       case PlotType.Upgraded1:
         return;

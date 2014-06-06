@@ -3,9 +3,11 @@ using System;
 using System.Collections;
 
 public class Kaiju : DisplayObject {
+  public float SpeedDampening = 0.1f;
+
   protected System.Random myRandom;
 
-  public float SpeedDampening = 0.1f;
+  protected Vector3 originalPosition;
 
   protected override void Initialize() {
     base.Initialize();
@@ -13,39 +15,37 @@ public class Kaiju : DisplayObject {
     myRandom = new System.Random( (int)DateTime.Now.Ticks );
   }
 
+  public void Start() {
+    originalPosition = transform.position;
+  }
+
   public override void Update() {
-    base.Update();
+    if ( gameObject.activeInHierarchy ) {
+      base.Update();
 
-    //Vector3 loc = transform.position;
+      double rnd = myRandom.NextDouble();
 
-    double rnd = myRandom.NextDouble();
+      if ( rnd > 0.124 && rnd < 0.26 ) {
+        float curRot = transform.rotation.eulerAngles.z;
+        int minRot = (int)curRot - 15;
+        int maxRot = minRot + 30;
+        float newRot = (float)myRandom.Next(minRot, maxRot);
 
-    if ( rnd > 0.124 && rnd < 0.26 ) {
-      float curRot = transform.rotation.eulerAngles.z;
-      int minRot = (int)curRot - 15;
-      int maxRot = minRot + 30;
-      float newRot = (float)myRandom.Next(minRot, maxRot);
-
-      transform.rotation = Quaternion.Euler( 0f, 0f, newRot );
-    }
-
-    transform.position = transform.position + (transform.up * Time.deltaTime * SpeedDampening);
-
-    /*if ( myRandom.NextDouble() > 0.65 ) {
-      float rnd = (float)myRandom.NextDouble();
-      float cur = (float)rot.z;
-      int min = (int)cur - 15;
-      if ( min < 0 ) {
-        min = 0;
+        transform.rotation = Quaternion.Euler( 0f, 0f, newRot );
       }
-      int max = min + 30;
-      float next = (float)myRandom.Next( min, max );
-      //rot.z = rnd * next;
-      rot.z = 1.0f;
-      //Debug.Log( "Went from " + cur + " to " + rot.z );
-      //Debug.Log( "rnd: " + rnd + " min: " + min + " max: " + max + " next: " + next );
 
-      transform.rotation = rot;
-    }*/
+      transform.position = transform.position + (transform.up * Time.deltaTime * SpeedDampening);
+    } else {
+      transform.position = originalPosition;
+    }
+  }
+
+  public void Attack() {
+    transform.position = originalPosition;
+    gameObject.SetActive( true );
+  }
+
+  public void StopAttack() {
+    gameObject.SetActive( false );
   }
 }
