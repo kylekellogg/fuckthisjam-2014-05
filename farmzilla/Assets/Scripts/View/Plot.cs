@@ -18,6 +18,9 @@ public class Plot : InteractableObject {
 
   public bool IsEssential;
 
+  public float CurrentHP = 100.0f;
+  public float ResetHP = 100.0f;
+
   protected bool hasActiveJob;
   protected Job activeJob;
 
